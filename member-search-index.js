@@ -1,0 +1,1 @@
+memberSearchIndex = [{"p":"com.javarush.task.task24.task2407","c":"JavadocExample","l":"JavadocExample()","u":"%3Cinit%3E()"},{"p":"com.javarush.task.task24.task2407","c":"JavadocExample","l":"toSayable(int)"}];updateSearchResults();

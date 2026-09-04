@@ -1,0 +1,64 @@
+package ru.javarush.java.core.level13.task07;
+/*
+Расписание встреч: кто раньше? ⏰
+Вы — секретарь, управляющий очень плотным расписанием. У вас есть две встречи: morningMeeting в "8:00" и afternoonPresentation в "14:30".
+
+Вам нужно быстро определить, действительно ли morningMeeting запланирована раньше, чем afternoonPresentation.
+
+Создайте два объекта LocalTime для этих встреч. Используя специальный метод сравнения, проверьте их порядок.
+
+Если morningMeeting действительно раньше, выведите на экран "8:00 раньше 14:30". В противном случае сообщите: "8:00 не раньше 14:30".
+
+Требования:
+•	В программе должны быть созданы два объекта LocalTime: один для времени 8:00, другой для времени 14:30.
+•	Объект для 8:00 должен называться morningMeeting, а для 14:30 — afternoonPresentation.
+•	Для определения порядка встреч должен быть использован специальный метод сравнения времени из класса LocalTime (например, isBefore или compareTo).
+•	Если morningMeeting действительно раньше afternoonPresentation, программа должна вывести "8:00 раньше 14:30".
+•	Если morningMeeting не раньше afternoonPresentation, программа должна вывести "8:00 не раньше 14:30".
+
+public class Solution {
+    public static void main(String[] args) {
+        // Создаем два объекта времени: утренняя встреча и дневная презентация
+
+
+        // Сравниваем времена с помощью специализированного метода isBefore
+
+    }
+}
+
+ */
+
+import java.time.LocalTime;
+
+public class Solution {
+    public static void main(String[] args) {
+        // Создаем два объекта времени: утренняя встреча и дневная презентация
+        LocalTime morningMeeting = LocalTime.of(8, 0);
+        LocalTime afternoonPresentation = LocalTime.of(14, 30);
+
+        // Сравниваем времена с помощью специализированного метода isBefore
+        String myString = morningMeeting.isBefore(afternoonPresentation) ?
+                "8:00 раньше 14:30" :
+                "8:00 не раньше 14:30";
+
+        System.out.println(myString);
+
+    }
+}
+/*
+ихнее решение
+public class Solution {
+    public static void main(String[] args) {
+        // Создаем два объекта времени: утренняя встреча и дневная презентация
+        LocalTime morningMeeting = LocalTime.of(8, 0);
+        LocalTime afternoonPresentation = LocalTime.of(14, 30);
+
+        // Сравниваем времена с помощью специализированного метода isBefore
+        if (morningMeeting.isBefore(afternoonPresentation)) {
+            System.out.println("8:00 раньше 14:30");
+        } else {
+            System.out.println("8:00 не раньше 14:30");
+        }
+    }
+}
+ */

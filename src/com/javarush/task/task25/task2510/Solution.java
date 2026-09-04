@@ -1,0 +1,99 @@
+package com.javarush.task.task25.task2510;
+
+/* 
+Поживем - увидим
+
+Все исключения, которые возникают в процессе работы нити Solution, должны быть обработаны одним из вариантов:
+1. Если это Error, то вывести в консоль "Нельзя дальше работать".
+2. Если это Exception, то вывести в консоль "Надо обработать".
+3. Если это Throwable, то вывести в консоль "Поживем - увидим".
+Реализуй эту логику.
+
+Требования:
+•	В конструкторе Solution должен устанавливаться свой UncaughtExceptionHandler, который будет перехватывать возникшие ошибки и выводить текст в консоль.
+•	Если выполнение нити Solution закончилось исключением Error, нужно вывести в консоль "Нельзя дальше работать".
+•	Если выполнение нити Solution закончилось исключением Exception, нужно вывести в консоль "Надо обработать".
+•	Если выполнение нити Solution закончилось исключением Throwable, нужно вывести в консоль "Поживем - увидим".
+
+public class Solution extends Thread {
+
+    public Solution() {
+        this.setUncaughtExceptionHandler(new UncaughtExceptionHandler() {
+            @Override
+            public void uncaughtException(Thread t, Throwable e) {
+                String message;
+                if (e instanceof Error) message = "Нельзя дальше работать";
+                else if (e instanceof Exception) message = "Надо обработать";
+                else message = "Поживем - увидим";
+                System.out.println(message);
+            }
+        });
+    }
+
+    public static void main(String[] args) {
+    }
+}
+*/
+
+public class Solution extends Thread {
+
+    public Solution() {
+
+        setUncaughtExceptionHandler(new Thread.UncaughtExceptionHandler() {
+
+            @Override
+            public void uncaughtException(Thread t, Throwable e) {
+                if (e instanceof Error) {
+                    System.out.println("Нельзя дальше работать");
+                } else if (e instanceof Exception) {
+                    System.out.println("Надо обработать");
+                } else if (e instanceof Throwable) {
+                    System.out.println("Поживем - увидим");
+                }
+            }
+
+        });
+
+    }
+
+    public static void main(String[] args) {
+        // Для тестирования можно создать экземпляр Solution
+        // и вызвать в нем исключение
+        Solution thread = new Solution();
+        thread.start();
+    }
+
+    // Пример метода run для тестирования
+    @Override
+    public void run() {
+        // Раскомментируйте одну из строк ниже для тестирования разных исключений
+
+        // Для тестирования Error:
+//        throw new OutOfMemoryError("Test Error");
+
+        // Для тестирования Exception:
+        // throw new RuntimeException("Test Exception");
+
+        // Для тестирования Throwable:
+        // throw new Throwable("Test Throwable");
+    }
+}
+
+/*
+public class Solution extends Thread {
+
+    public Solution() {
+        Thread thread = new DownloadThread();
+        thread.setUncaughtExceptionHandler(new Thread.UncaughtExceptionHandler() {
+            @Override
+            public void uncaughtException(Thread t, Throwable e) {
+            }
+        });
+        thread.start();
+    }
+
+    public static void main(String[] args) {
+
+    }
+}
+ */
