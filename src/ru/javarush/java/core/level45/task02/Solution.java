@@ -55,25 +55,98 @@ public class Solution {
 
  */
 
+import ru.javarush.java.core.level45.task02.v1.Book;
+
+import java.io.*;
+
 public class Solution {
     private static final String FILE_NAME = "books.bin";
 
     public static void main(String[] args) throws Exception {
         // Создать объект книги первой версии и сохранить его в файл
-
+        ru.javarush.java.core.level45.task02.v1.Book bookV1 = new Book("King Artur", "Unknown");
+        ObjectOutputStream oos1 = new ObjectOutputStream(new FileOutputStream(FILE_NAME));
+        oos1.writeObject(bookV1);
+        oos1.close();
 
         // Прочитать тот же файл классом второй версии,
         // подменив класс с помощью собственного потока
-
+        ru.javarush.java.core.level45.task02.v2.Book bookV2;
+        ObjectInputStreamV2 ois2 = new ObjectInputStreamV2(new FileInputStream(FILE_NAME));
+        bookV2 = (ru.javarush.java.core.level45.task02.v2.Book) ois2.readObject();
 
         // Вывести название, автора и год издания восстановленного объекта
+        System.out.println(bookV2.getBookTitle());
+        System.out.println(bookV2.getBookAuthor());
+        System.out.println(bookV2.getPublicationYear());
 
     }
 }
 
 // Здесь объявить наследник ObjectInputStream, который подменяет
 // класс первой версии на класс второй версии
+class ObjectInputStreamV2 extends ObjectInputStream {
+    public ObjectInputStreamV2(InputStream in) throws IOException {
+        super(in);
+    }
+
+    @Override
+    protected Class<?> resolveClass(ObjectStreamClass desc) throws IOException, ClassNotFoundException {
+        // desc = Class.forName("ru.javarush.java.core.level45.task02.v1.Book");
+        // подменяем старый класс на новый
+        if ("ru.javarush.java.core.level45.task02.v1.Book".equals(desc.getName())) {
+            return Class.forName("ru.javarush.java.core.level45.task02.v2.Book");
+        }
+        return super.resolveClass(desc);
+    }
+}
+
+
 
 /*
+public class Solution {
+    private static final String FILE_NAME = "books.bin";
+
+    public static void main(String[] args) throws Exception {
+        // 1) Старая система: сохраняем книгу, у которой ещё нет года издания.
+        //    Полное имя класса пишется целиком — импортировать два класса Book сразу нельзя.
+        ru.javarush.java.core.level45.task02.v1.Book oldBook =
+                new ru.javarush.java.core.level45.task02.v1.Book("Тайна старого маяка", "Мартин Хейл");
+
+        try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(FILE_NAME))) {
+            out.writeObject(oldBook);
+        }
+
+        // 2) Новая система: тот же файл читаем уже классом второй версии.
+        //    Подменой класса занимается поток VersionMappingObjectInputStream.
+        Book restored;
+        try (ObjectInputStream in = new VersionMappingObjectInputStream(new FileInputStream(FILE_NAME))) {
+            restored = (Book) in.readObject();
+        }
+
+        // 3) Старые поля восстановились из файла, а нового в файле не было —
+        //    оно получило значение по умолчанию для int, то есть 0.
+        System.out.println("bookTitle: " + restored.bookTitle);
+        System.out.println("bookAuthor: " + restored.bookAuthor);
+        System.out.println("publicationYear: " + restored.publicationYear);
+    }
+}
+
+// В файле записано имя класса первой версии, поэтому обычный ObjectInputStream вернул бы v1.Book.
+// Этот поток подменяет его на v2.Book. Подмена возможна только потому, что простое имя класса
+// у обеих версий одинаковое (Book): при десериализации JDK сверяет имя класса без учёта пакета.
+class VersionMappingObjectInputStream extends ObjectInputStream {
+    public VersionMappingObjectInputStream(InputStream in) throws IOException {
+        super(in);
+    }
+
+    @Override
+    protected Class<?> resolveClass(ObjectStreamClass desc) throws IOException, ClassNotFoundException {
+        if (desc.getName().equals(ru.javarush.java.core.level45.task02.v1.Book.class.getName())) {
+            return Book.class;
+        }
+        return super.resolveClass(desc);
+    }
+}
 
  */
