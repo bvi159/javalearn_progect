@@ -78,7 +78,7 @@ public class Solution {
             end = System.nanoTime();
         }
 
-        System.out.println("Сериализация 10_000 предметов заняло " + (end - begin) / 1_000_000 + " мс");
+        System.out.println("Сериализация 10_000 предметов заняло около " + (end - begin) / 1_000_000 + " мс");
         System.out.println("1 миллисекунда = 1_000_000 наносекунд");
     }
 }
