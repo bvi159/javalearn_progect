@@ -78,7 +78,7 @@ public class Solution {
                     "name": "Alice",
                     "age": 30,
                     "skills": ["Java", "SQL", "Cloud"]
-                
+
                 """;
 
         System.out.println(json);
