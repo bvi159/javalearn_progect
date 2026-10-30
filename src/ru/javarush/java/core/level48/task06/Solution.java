@@ -36,6 +36,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Solution {
+
+    static int base = 100; //Пример из следующей лекции
     public static void main(String[] args) {
         // Формируем "свиток" с числами от 1 до 5
         List<Integer> scroll = new ArrayList<>();
@@ -49,6 +51,14 @@ public class Solution {
 
         // Выводим итоговый "чистый" свиток
         System.out.println(scroll);
+
+//Пример из следующей лекции
+            Runnable printer = () -> System.out.println(base);
+            printer.run();   // 100
+            base = 200;
+            printer.run();   // 200  ← читает поле каждый раз
+        //Пример из следующей лекции
+
 
     }
 }
